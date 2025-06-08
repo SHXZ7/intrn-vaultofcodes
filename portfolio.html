@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed Shaaz - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
+
+        section {
+            background: white;
+            margin: 30px 0;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            color: #4a5568;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 50px;
+            height: 3px;
+            background: #764ba2;
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: #2d3748;
+            font-size: 1.5em;
+            margin: 20px 0 10px 0;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #4a5568;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #4a5568;
+            transition: color 0.3s ease;
+        }
+
+        li:hover {
+            color: #667eea;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .skill-item {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border-left-color: #38b2ac;
+            transform: translateX(5px);
+        }
+
+        .project {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 12px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .project:hover {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-color: #ffc107;
+            transform: scale(1.02);
+        }
+
+        .project-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .project-link:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .contact-item:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            section {
+                padding: 25px;
+            }
+
+            .skills-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Mohammed Shaaz</h1>
+            <p class="subtitle">Full-Stack Developer</p>
+        </header>
+
+        <section>
+            <h2>About Me</h2>
+            <p>
+                Passionate Electronics and Communication Engineering student with a strong interest in the IT domain.
+                Skilled in
+                programming, networking, and digital systems. Enthusiastic about software development, data science,
+                embedded systems
+                and AI. Committed to solving problems, collaborating with teams, and contributing to innovative
+                solutions. Seeking to
+                enhance skills through internships and projects.
+            </p>
+            <p>
+                My journey in tech began with a curiosity about how websites work, which quickly evolved into a deep
+                fascination
+                with coding and problem-solving. I thrive on challenges and enjoy turning complex ideas into elegant,
+                efficient
+                solutions. When I'm not coding, you'll find me exploring new technologies, contributing to open-source
+                projects,
+                or hiking in the great outdoors to recharge my creativity.
+            </p>
+            <p>
+                What makes me unique is my ability to bridge the gap between technical complexity and user experience. I
+                believe
+                that great software should not only work flawlessly but also feel intuitive and delightful to use.
+            </p>
+        </section>
+
+        <section>
+            <h2>Skills & Interests</h2>
+            <div class="skills-container">
+                <div>
+                    <h3>Technical Skills</h3>
+                    <ul>
+                        <li class="skill-item">JavaScript & TypeScript</li>
+                        <li class="skill-item">React.js & Node.js Development</li>
+                        <li class="skill-item">Python Framework</li>
+                        <li class="skill-item">Database Design (SQL & NoSQL)</li>
+                        <li class="skill-item">Cloud Services (AWS, Google)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Personal Interests</h3>
+                    <ol>
+                        <li class="skill-item">Open Source Contribution & Community Building</li>
+                        <li class="skill-item">UI/UX Design & Data Analytics</li>
+                        <li class="skill-item">Artificial Intelligence & Machine Learning</li>
+                        <li class="skill-item">Video Editing</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Featured Projects</h2>
+
+            <div class="project">
+                <h3>Image Compression Tool</h3>
+                <p>
+                    Developed a full-stack web application utilizing React and Vite to implement image compression and
+                    reconstruction
+                    functionalities. The application allows users to upload images, compress them
+                </p>
+                <a href="https://github.com/SHXZ7/image-cmprr" class="project-link">View Project</a>
+            </div>
+
+            <div class="project">
+                <h3>AI-Powered Resume Builder</h3>
+                <p>
+                    Developed a full-stack, AI-powered resume builder using React, Next.js, and Firebase, featuring
+                    real-time editing,
+                    customizable templates, PDF export, and GPT-based content suggestions.
+                </p>
+                <a href="https://github.com/SHXZ7/airesumebuilder" class="project-link">View Project</a>
+            </div>
+        </section>
+
+        <section>
+            <h2>Get In Touch</h2>
+            <p>
+                I'm always excited to connect with fellow developers, potential collaborators, and anyone interested
+                in discussing technology and innovation. Whether you have a project in mind, want to chat about the
+                latest in web development, or just want to say hello, I'd love to hear from you!
+            </p>
+            <div class="contact-info">
+                <a href="mailto:shaazney123@email.com" class="contact-item">📧 shaazney123@email.com</a>
+                <a href="https://www.linkedin.com/in/shaaz-sharafuddin-098a1628b" class="contact-item" target="_blank"
+                    rel="noopener noreferrer">💼
+                    LinkedIn Profile</a>
+                <a href="https://github.com/SHXZ7" class="contact-item">🐙 GitHub Projects</a>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
