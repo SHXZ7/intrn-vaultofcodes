@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Programs 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .particle:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .program-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .program-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+        }
+
+        .program-card:nth-child(1)::before {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .program-card:nth-child(2)::before {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .program-card:nth-child(3)::before {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .program-card:nth-child(4)::before {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .program-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .program-details {
+            list-style: none;
+            margin-bottom: 35px;
+        }
+
+        .program-details li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #4a5568;
+            position: relative;
+        }
+
+        .program-details li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #2d3748;
+            margin-right: 8px;
+        }
+
+        .detail-value {
+            color: #718096;
+        }
+
+        .view-details-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .view-details-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .view-details-btn:hover::before {
+            left: 100%;
+        }
+
+        .view-details-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .program-card:nth-child(2) .view-details-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4);
+        }
+
+        .program-card:nth-child(2) .view-details-btn:hover {
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.6);
+        }
+
+        .program-card:nth-child(3) .view-details-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+
+        .program-card:nth-child(3) .view-details-btn:hover {
+            box-shadow: 0 15px 40px rgba(79, 172, 254, 0.6);
+        }
+
+        .program-card:nth-child(4) .view-details-btn {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            box-shadow: 0 10px 30px rgba(67, 233, 123, 0.4);
+        }
+
+        .program-card:nth-child(4) .view-details-btn:hover {
+            box-shadow: 0 15px 40px rgba(67, 233, 123, 0.6);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .program-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .program-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .program-card:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .programs-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .program-card {
+                padding: 30px;
+            }
+
+            .container {
+                padding: 40px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .program-card {
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-animation">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Internship Programs</h1>
+            <p class="hero-subtitle">Launch your career with our comprehensive internship programs. Gain real-world
+                experience in cutting-edge technologies.</p>
+        </div>
+
+        <div class="programs-grid">
+            <div class="program-card">
+                <h2 class="program-title">Web Development Internship Program</h2>
+                <ul class="program-details">
+                    <li><span class="detail-label">Duration:</span> <span class="detail-value">1 month/2 months</span>
+                    </li>
+                    <li><span class="detail-label">Location:</span> <span class="detail-value">Virtual</span></li>
+                    <li><span class="detail-label">Stipend:</span> <span class="detail-value">-</span></li>
+                    <li><span class="detail-label">Start date:</span> <span class="detail-value">05/11/2023</span></li>
+                </ul>
+                <a href="https://example.com/web-development" class="view-details-btn">View Details</a>
+            </div>
+
+            <div class="program-card">
+                <h2 class="program-title">App Development Internship Program</h2>
+                <ul class="program-details">
+                    <li><span class="detail-label">Duration:</span> <span class="detail-value">1 month/2 months</span>
+                    </li>
+                    <li><span class="detail-label">Location:</span> <span class="detail-value">Virtual</span></li>
+                    <li><span class="detail-label">Stipend:</span> <span class="detail-value">-</span></li>
+                    <li><span class="detail-label">Start date:</span> <span class="detail-value">05/11/2023</span></li>
+                </ul>
+                <a href="https://example.com/app-development" class="view-details-btn">View Details</a>
+            </div>
+
+            <div class="program-card">
+                <h2 class="program-title">Python Programming Internship Program</h2>
+                <ul class="program-details">
+                    <li><span class="detail-label">Duration:</span> <span class="detail-value">1 month/2 months</span>
+                    </li>
+                    <li><span class="detail-label">Location:</span> <span class="detail-value">Virtual</span></li>
+                    <li><span class="detail-label">Stipend:</span> <span class="detail-value">-</span></li>
+                    <li><span class="detail-label">Start date:</span> <span class="detail-value">05/11/2023</span></li>
+                </ul>
+                <a href="https://example.com/python-programming" class="view-details-btn">View Details</a>
+            </div>
+
+            <div class="program-card">
+                <h2 class="program-title">Java Programming Internship Program</h2>
+                <ul class="program-details">
+                    <li><span class="detail-label">Duration:</span> <span class="detail-value">1 month/ 2months</span>
+                    </li>
+                    <li><span class="detail-label">Location:</span> <span class="detail-value">Virtual</span></li>
+                    <li><span class="detail-label">Stipend:</span> <span class="detail-value">-</span></li>
+                    <li><span class="detail-label">Start date:</span> <span class="detail-value">05/11/2023</span></li>
+                </ul>
+                <a href="https://example.com/java-programming" class="view-details-btn">View Details</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
