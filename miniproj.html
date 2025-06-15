@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan Chocolate Chip Cookies | An Interactive Recipe</title>
+
+    <!-- Google Fonts: Playfair Display for headings, Lato for body text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- We'll use custom CSS for this beautiful design, Tailwind is not needed -->
+    <style>
+        :root {
+            /* A warm, gourmet-inspired color palette */
+            --color-primary: #a16207;
+            /* A rich, golden brown for accents */
+            --color-primary-dark: #854d0e;
+            --color-secondary: #4a2c2a;
+            /* A deep chocolate brown for text */
+            --color-background: #fdfaf6;
+            /* A creamy, off-white background */
+            --color-surface: #ffffff;
+            /* The card's surface */
+            --color-subtle: #f3eee8;
+            /* For list items and subtle backgrounds */
+            --color-border: #e7e0d8;
+            --color-success: #22c55e;
+            --color-danger: #ef4444;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+        }
+
+        /* --- Base & Body Styles --- */
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-background);
+            /* A subtle background pattern for texture */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e7e0d8' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            box-sizing: border-box;
+            color: var(--color-secondary);
+        }
+
+        /* --- Recipe Card Container --- */
+        .recipe-card {
+            background-color: var(--color-surface);
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(74, 44, 42, 0.15), 0 0 15px rgba(0, 0, 0, 0.05);
+            max-width: 1100px;
+            width: 100%;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid var(--color-border);
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 60px -15px rgba(74, 44, 42, 0.2), 0 0 20px rgba(0, 0, 0, 0.07);
+        }
+
+        /* --- Recipe Header --- */
+        .recipe-header {
+            position: relative;
+            height: 380px;
+            overflow: hidden;
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .recipe-header:hover .recipe-image {
+            transform: scale(1.08);
+        }
+
+        .recipe-title-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 10%, rgba(0, 0, 0, 0) 100%);
+            color: #ffffff;
+            padding: 2.5rem;
+        }
+
+        .recipe-title-overlay h1 {
+            font-family: var(--font-heading);
+            font-size: 2.75rem;
+            line-height: 1.2;
+            text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .recipe-title-overlay p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 0.5rem;
+            max-width: 600px;
+        }
+
+        /* --- Main Content Area --- */
+        .recipe-content {
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 3rem;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--color-secondary);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        /* --- Lists (Ingredients & Instructions) --- */
+        .ingredients-list li,
+        .instructions-list li {
+            padding: 1rem 1.25rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            background-color: var(--color-subtle);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            border-left: 4px solid transparent;
+        }
+
+        .ingredients-list li:hover,
+        .instructions-list li:hover {
+            background-color: #e9e2db;
+            transform: translateX(4px);
+            border-left-color: var(--color-primary);
+        }
+
+        /* Custom Checkbox for Ingredients */
+        .ingredients-list li input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            margin-right: 1rem;
+            font: inherit;
+            color: var(--color-primary);
+            width: 1.25em;
+            height: 1.25em;
+            border: 0.15em solid var(--color-border);
+            border-radius: 0.35em;
+            transform: translateY(-0.075em);
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ingredients-list li input[type="checkbox"]::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em var(--color-primary);
+            transform-origin: bottom left;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+
+        .ingredients-list li input[type="checkbox"]:checked::before {
+            transform: scale(1);
+        }
+
+        .ingredients-list li.checked {
+            background-color: #e7e0d8;
+            color: #8c7a6b;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        /* --- Collapsible Sections --- */
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out, padding 0.7s ease-in-out;
+        }
+
+        .collapsible-content.expanded {
+            max-height: 2000px;
+            /* Large enough for content */
+            padding-top: 1rem;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.75rem;
+            border-radius: 2rem;
+            /* Fully rounded */
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(161, 98, 7, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #311d1c;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(74, 44, 42, 0.25);
+        }
+
+        /* --- Progress & Timers --- */
+        .instructions-list li.highlighted {
+            background-color: #fef3c7;
+            /* A light yellow to highlight */
+            font-weight: 700;
+            border-left: 5px solid var(--color-primary);
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(161, 98, 7, 0.15);
+        }
+
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-danger);
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #fff1f2;
+            border-radius: 0.75rem;
+            border: 1px solid #ffdde0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        /* --- Notes Section --- */
+        .notes-section textarea {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-subtle);
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-family: var(--font-body);
+        }
+
+        .notes-section textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 4px rgba(161, 98, 7, 0.1);
+            background-color: #fff;
+        }
+
+        /* --- Footer Info --- */
+        .recipe-footer {
+            background-color: var(--color-subtle);
+            padding: 2rem;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .footer-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        .footer-info-item i {
+            font-size: 1.75rem;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-info-item p {
+            font-size: 0.9rem;
+            color: var(--color-secondary);
+        }
+
+        .footer-info-item .font-semibold {
+            font-weight: 700;
+        }
+
+        /* --- Responsiveness --- */
+        @media (max-width: 900px) {
+            .recipe-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .recipe-header {
+                height: 300px;
+            }
+
+            .recipe-title-overlay h1 {
+                font-size: 2.25rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 1rem;
+            }
+
+            .recipe-card {
+                border-radius: 1rem;
+            }
+
+            .recipe-header {
+                height: 220px;
+            }
+
+            .recipe-content,
+            .recipe-title-overlay,
+            .recipe-footer {
+                padding: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* --- Print Styles --- */
+        @media print {
+
+            /* Styles for printing the recipe */
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .recipe-card {
+                box-shadow: none;
+                border: none;
+                max-width: 100%;
+            }
+
+            .btn,
+            .serving-adjuster,
+            .utility-buttons,
+            .timer-display,
+            .action-buttons,
+            .recipe-footer {
+                display: none !important;
+            }
+
+            .collapsible-content {
+                max-height: none !important;
+                padding-top: 0 !important;
+                overflow: visible;
+            }
+
+            .collapsible-content.expanded {
+                max-height: none !important;
+            }
+
+            .recipe-header,
+            .notes-section {
+                page-break-after: always;
+            }
+
+            .ingredients-list,
+            .instructions-list {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="recipe-card">
+        <!-- Recipe Header -->
+        <div class="recipe-header">
+            <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+                alt="A beautiful batch of freshly baked chocolate chip cookies on a cooling rack" class="recipe-image"
+                onerror="this.onerror=null;this.src='https://placehold.co/1200x380/dcb/4a2c2a?text=Delicious+Cookies';">
+            <div class="recipe-title-overlay">
+                <h1>Artisan Chocolate Chip Cookies</h1>
+                <p>A timeless recipe perfected for a delightfully chewy center and crisp, golden-brown edges.</p>
+            </div>
+        </div>
+
+        <!-- Recipe Content (Ingredients & Instructions) -->
+        <div class="recipe-content">
+            <!-- Left Column: Ingredients & Nutrition -->
+            <div class="ingredients-section">
+                <h2 class="section-title">Ingredients</h2>
+                <div id="ingredientsContent" class="collapsible-content expanded">
+                    <ul class="ingredients-list" id="ingredientsList">
+                        <!-- JS will populate this list -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Column: Instructions & Cooking Tools -->
+            <div class="instructions-section">
+                <h2 class="section-title">Instructions</h2>
+                <div id="instructionsContent" class="collapsible-content expanded">
+                    <ul class="instructions-list" id="cookingSteps">
+                        <!-- JS will populate this list -->
+                    </ul>
+                    <div class="action-buttons" style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button id="startCookingBtn" class="btn btn-secondary">
+                            <i class="fas fa-utensils" style="margin-right: 0.5rem;"></i> Start Cooking
+                        </button>
+                        <button id="nextStepBtn" class="btn btn-primary" disabled>
+                            Next Step <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                        </button>
+                    </div>
+                    <div id="cookingTimer" class="timer-display" style="display: none;">
+                        <!-- JS populates this -->
+                    </div>
+
+                    <div class="notes-section"
+                        style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border);">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 1rem;">Recipe
+                            Notes</h3>
+                        <textarea id="recipeNotes"
+                            placeholder="e.g., 'Used dark chocolate chunks instead of chips' or 'Chilled the dough for an extra hour'"></textarea>
+                        <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+                            <button id="saveNotesBtn" class="btn"
+                                style="background-color: var(--color-subtle); color: var(--color-secondary); border-color: var(--color-border);">
+                                <i class="fas fa-save" style="margin-right: 0.5rem;"></i> Save
+                            </button>
+                            <button id="printRecipeBtn" class="btn"
+                                style="background-color: var(--color-subtle); color: var(--color-secondary); border-color: var(--color-border);">
+                                <i class="fas fa-print" style="margin-right: 0.5rem;"></i> Print
+                            </button>
+                            <button id="resetCookingBtn" class="btn"
+                                style="background-color: var(--color-subtle); color: var(--color-secondary); border-color: var(--color-border);">
+                                <i class="fas fa-redo" style="margin-right: 0.5rem;"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recipe Footer with quick info -->
+        <div class="recipe-footer">
+            <div class="footer-info">
+                <div class="footer-info-item">
+                    <i class="fas fa-hourglass-half"></i>
+                    <p>Prep Time: <span class="font-semibold">15 mins</span></p>
+                </div>
+                <div class="footer-info-item">
+                    <i class="fas fa-fire-burner"></i>
+                    <p>Cook Time: <span class="font-semibold">10 mins</span></p>
+                </div>
+                <div class="footer-info-item">
+                    <i class="fas fa-cookie-bite"></i>
+                    <p>Servings: <span id="servingSize" class="font-semibold">24</span> cookies</p>
+                    <div class="serving-adjuster"
+                        style="display: flex; align-items: center; justify-content:center; gap: 0.75rem; margin-top: 0.5rem;">
+                        <button id="decreaseServing" aria-label="Decrease servings"
+                            style="background: none; border:none; font-size: 1rem; cursor: pointer; color: var(--color-primary);"><i
+                                class="fas fa-minus-circle"></i></button>
+                        <button id="increaseServing" aria-label="Increase servings"
+                            style="background: none; border:none; font-size: 1rem; cursor: pointer; color: var(--color-primary);"><i
+                                class="fas fa-plus-circle"></i></button>
+                    </div>
+                </div>
+                <div class="footer-info-item">
+                    <i class="fas fa-star"></i>
+                    <p>Difficulty: <span class="font-semibold">Easy</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const initialServings = 24;
+        const recipeData = {
+            ingredients: [
+                { name: "unsalted butter, softened", amount: 1, unit: "cup" },
+                { name: "granulated sugar", amount: 0.75, unit: "cup" },
+                { name: "packed light brown sugar", amount: 0.75, unit: "cup" },
+                { name: "large eggs", amount: 2, unit: "" },
+                { name: "vanilla extract", amount: 1.5, unit: "tsp" },
+                { name: "all-purpose flour", amount: 2.25, unit: "cups" },
+                { name: "baking soda", amount: 1, unit: "tsp" },
+                { name: "salt", amount: 0.5, unit: "tsp" },
+                { name: "semi-sweet chocolate chips", amount: 2, unit: "cups" },
+            ],
+            instructions: [
+                { step: "Preheat oven to 375°F (190°C). Line baking sheets with parchment paper." },
+                { step: "In a large bowl, cream together the softened butter, granulated sugar, and brown sugar until light and fluffy.", time: 180 }, // 3 minutes
+                { step: "Beat in the eggs one at a time, then stir in the vanilla extract." },
+                { step: "In a separate bowl, whisk together the flour, baking soda, and salt." },
+                { step: "Gradually add the dry ingredients to the wet ingredients and mix until just combined." },
+                { step: "Stir in the chocolate chips by hand.", time: 60 }, // 1 minute
+                { step: "Drop rounded tablespoons of dough onto the prepared baking sheets, about 2 inches apart." },
+                { step: "Bake for 9 to 11 minutes, or until the edges are golden brown and the centers are set.", time: 600 }, // 10 minutes
+                { step: "Let the cookies cool on the baking sheet for a few minutes before transferring them to a wire rack to cool completely." },
+                { step: "Enjoy your delicious homemade cookies!" }
+            ]
+        };
+
+        // --- STATE ---
+        let servingSize = initialServings;
+        let currentStep = -1;
+        let stepTimer;
+
+        // --- DOM ELEMENTS ---
+        const ingredientsList = document.getElementById('ingredientsList');
+        const instructionsList = document.getElementById('cookingSteps');
+        const servingSizeDisplay = document.getElementById('servingSize');
+        const decreaseServingBtn = document.getElementById('decreaseServing');
+        const increaseServingBtn = document.getElementById('increaseServing');
+        const startCookingBtn = document.getElementById('startCookingBtn');
+        const nextStepBtn = document.getElementById('nextStepBtn');
+        const resetCookingBtn = document.getElementById('resetCookingBtn');
+        const cookingTimerDisplay = document.getElementById('cookingTimer');
+        const recipeNotes = document.getElementById('recipeNotes');
+        const saveNotesBtn = document.getElementById('saveNotesBtn');
+        const printRecipeBtn = document.getElementById('printRecipeBtn');
+
+        // --- FUNCTIONS ---
+
+        // Initialize the recipe card on load
+        function initRecipe() {
+            renderIngredients();
+            renderInstructions();
+            loadNotes();
+            // Automatically expand the sections
+            document.getElementById('ingredientsContent').classList.add('expanded');
+            document.getElementById('instructionsContent').classList.add('expanded');
+        }
+
+        // Render the ingredients list
+        function renderIngredients() {
+            ingredientsList.innerHTML = '';
+            const factor = servingSize / initialServings;
+            recipeData.ingredients.forEach((ing, index) => {
+                const li = document.createElement('li');
+                const adjustedAmount = ing.amount * factor;
+                const finalAmount = Number.isInteger(adjustedAmount) ? adjustedAmount : adjustedAmount.toFixed(2);
+
+                li.innerHTML = `
+                    <input type="checkbox" id="ing-${index}" />
+                    <label for="ing-${index}">${finalAmount} ${ing.unit} ${ing.name}</label>
+                `;
+                li.querySelector('input').addEventListener('change', (e) => {
+                    li.classList.toggle('checked', e.target.checked);
+                });
+                ingredientsList.appendChild(li);
+            });
+        }
+
+        // Render the cooking instructions
+        function renderInstructions() {
+            instructionsList.innerHTML = '';
+            recipeData.instructions.forEach((instr, index) => {
+                const li = document.createElement('li');
+                li.dataset.index = index;
+                let stepHtml = `<span>${instr.step}</span>`;
+                if (instr.time) {
+                    stepHtml += `<span style="font-size: 0.8rem; color: #a16207; margin-left: auto; padding-left: 1rem;">
+                                    <i class="fas fa-clock"></i> ${instr.time / 60} min
+                                 </span>`;
+                }
+                li.innerHTML = stepHtml;
+                instructionsList.appendChild(li);
+            });
+        }
+
+        // Adjust serving size
+        function updateServingSize() {
+            servingSizeDisplay.textContent = servingSize;
+            renderIngredients();
+        }
+
+        // Cooking mode functions
+        function startCooking() {
+            currentStep = 0;
+            highlightCurrentStep();
+            startCookingBtn.disabled = true;
+            nextStepBtn.disabled = false;
+        }
+
+        function nextStep() {
+            if (currentStep < recipeData.instructions.length - 1) {
+                currentStep++;
+                highlightCurrentStep();
+            } else {
+                // End of recipe
+                alert('Congratulations! You finished the recipe.');
+                resetCookingState();
+            }
+        }
+
+        function resetCookingState() {
+            currentStep = -1;
+            highlightCurrentStep(); // This will clear all highlights
+            startCookingBtn.disabled = false;
+            nextStepBtn.disabled = true;
+            clearInterval(stepTimer);
+            cookingTimerDisplay.style.display = 'none';
+        }
+
+        function highlightCurrentStep() {
+            document.querySelectorAll('#cookingSteps li').forEach(li => {
+                li.classList.remove('highlighted');
+            });
+
+            if (currentStep >= 0) {
+                const currentLi = document.querySelector(`#cookingSteps li[data-index='${currentStep}']`);
+                if (currentLi) {
+                    currentLi.classList.add('highlighted');
+                    currentLi.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    handleStepTimer();
+                }
+            }
+        }
+
+        function handleStepTimer() {
+            clearInterval(stepTimer);
+            const instruction = recipeData.instructions[currentStep];
+            if (instruction && instruction.time) {
+                let timeRemaining = instruction.time;
+                cookingTimerDisplay.style.display = 'flex';
+
+                const updateTimer = () => {
+                    const minutes = Math.floor(timeRemaining / 60);
+                    const seconds = timeRemaining % 60;
+                    cookingTimerDisplay.innerHTML = `<i class="fas fa-clock"></i> Time Remaining: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                    if (timeRemaining <= 0) {
+                        clearInterval(stepTimer);
+                        cookingTimerDisplay.innerHTML = `<i class="fas fa-check-circle"></i> Step Complete!`;
+                    } else {
+                        timeRemaining--;
+                    }
+                };
+
+                updateTimer();
+                stepTimer = setInterval(updateTimer, 1000);
+            } else {
+                cookingTimerDisplay.style.display = 'none';
+            }
+        }
+
+        // Notes functions
+        function saveNotes() {
+            localStorage.setItem('recipeNotes', recipeNotes.value);
+            const originalText = saveNotesBtn.innerHTML;
+            saveNotesBtn.innerHTML = `<i class="fas fa-check" style="margin-right: 0.5rem;"></i> Saved!`;
+            setTimeout(() => { saveNotesBtn.innerHTML = originalText; }, 2000);
+        }
+
+        function loadNotes() {
+            const savedNotes = localStorage.getItem('recipeNotes');
+            if (savedNotes) {
+                recipeNotes.value = savedNotes;
+            }
+        }
+
+        // Print function
+        function printRecipe() {
+            window.print();
+        }
+
+        // --- EVENT LISTENERS ---
+        decreaseServingBtn.addEventListener('click', () => {
+            if (servingSize > 1) { servingSize--; updateServingSize(); }
+        });
+        increaseServingBtn.addEventListener('click', () => {
+            servingSize++; updateServingSize();
+        });
+        startCookingBtn.addEventListener('click', startCooking);
+        nextStepBtn.addEventListener('click', nextStep);
+        resetCookingBtn.addEventListener('click', resetCookingState);
+        saveNotesBtn.addEventListener('click', saveNotes);
+        printRecipeBtn.addEventListener('click', printRecipe);
+
+        // --- INITIALIZE ---
+        document.addEventListener('DOMContentLoaded', initRecipe);
+
+    </script>
+</body>
+
+</html>
