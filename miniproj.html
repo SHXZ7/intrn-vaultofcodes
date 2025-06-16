@@ -6,17 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artisan Chocolate Chip Cookies | An Interactive Recipe</title>
 
-    <!-- Google Fonts: Playfair Display for headings, Lato for body text -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap"
         rel="stylesheet">
 
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- We'll use custom CSS for this beautiful design, Tailwind is not needed -->
     <style>
         :root {
             /* A warm, gourmet-inspired color palette */
@@ -143,6 +140,11 @@
             border-left: 4px solid transparent;
         }
 
+        .ingredients-list li:last-child,
+        .instructions-list li:last-child {
+            margin-bottom: 0;
+        }
+
         .ingredients-list li:hover,
         .instructions-list li:hover {
             background-color: #e9e2db;
@@ -167,6 +169,8 @@
             place-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            flex-shrink: 0;
+            /* Prevent checkbox from shrinking */
         }
 
         .ingredients-list li input[type="checkbox"]::before {
@@ -220,6 +224,8 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             cursor: pointer;
             border: 2px solid transparent;
+            text-decoration: none;
+            /* Ensure no underline on anchor buttons */
         }
 
         .btn-primary {
@@ -242,6 +248,17 @@
             background-color: #311d1c;
             transform: translateY(-3px);
             box-shadow: 0 7px 15px rgba(74, 44, 42, 0.25);
+        }
+
+        /* Action Buttons Container */
+        .action-buttons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            /* Allow wrapping on smaller screens */
+            justify-content: center;
+            /* Center buttons horizontally */
         }
 
         /* --- Progress & Timers --- */
@@ -306,6 +323,18 @@
             text-align: center;
         }
 
+        .footer-info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            /* Allow items to grow and fill space */
+            min-width: 120px;
+            /* Ensure a minimum width for items */
+        }
+
+
         .footer-info-item i {
             font-size: 1.75rem;
             color: var(--color-primary);
@@ -315,10 +344,32 @@
         .footer-info-item p {
             font-size: 0.9rem;
             color: var(--color-secondary);
+            margin-bottom: 0.25rem;
         }
 
         .footer-info-item .font-semibold {
             font-weight: 700;
+        }
+
+        .serving-adjuster {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .serving-adjuster button {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            /* Larger icons for easier tapping */
+            cursor: pointer;
+            color: var(--color-primary);
+            padding: 0.25rem;
+            /* Add padding for larger tap target */
+            line-height: 1;
+            /* Align icons better */
         }
 
         /* --- Responsiveness --- */
@@ -335,6 +386,11 @@
             .recipe-title-overlay h1 {
                 font-size: 2.25rem;
             }
+
+            .footer-info {
+                justify-content: center;
+                gap: 1rem;
+            }
         }
 
         @media (max-width: 500px) {
@@ -350,19 +406,76 @@
                 height: 220px;
             }
 
-            .recipe-content,
             .recipe-title-overlay,
+            .recipe-content,
             .recipe-footer {
                 padding: 1.5rem;
+            }
+
+            .recipe-title-overlay h1 {
+                font-size: 1.8rem;
+                /* Even smaller for very small screens */
+            }
+
+            .recipe-title-overlay p {
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+                margin-bottom: 1rem;
+            }
+
+            .ingredients-list li,
+            .instructions-list li {
+                padding: 0.8rem 1rem;
+                /* Slightly reduced padding */
+                margin-bottom: 0.5rem;
+                font-size: 0.95rem;
+                /* Slightly smaller text for list items */
             }
 
             .action-buttons {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 0.75rem;
+                /* Closer buttons */
             }
 
             .btn {
                 width: 100%;
+                /* Full width buttons on tiny screens */
+                padding: 0.8rem 1.5rem;
+                /* Slightly more vertical padding for tap target */
+                font-size: 0.85rem;
+                /* Smaller button text */
+            }
+
+            .notes-section textarea {
+                min-height: 100px;
+                /* Smaller textarea */
+            }
+
+            .footer-info {
+                flex-direction: column;
+                /* Stack footer items on very small screens */
+                gap: 1.2rem;
+            }
+
+            .footer-info-item {
+                width: 100%;
+                /* Full width for stacked items */
+                min-width: unset;
+            }
+
+            .serving-adjuster button {
+                font-size: 1.5rem;
+                /* Ensure tap targets remain large */
+            }
+
+            .timer-display {
+                font-size: 1.2rem;
+                padding: 0.8rem;
             }
         }
 
@@ -373,12 +486,15 @@
             body {
                 background: none;
                 padding: 0;
+                color: #000;
+                /* Ensure black text for print */
             }
 
             .recipe-card {
                 box-shadow: none;
                 border: none;
                 max-width: 100%;
+                border-radius: 0;
             }
 
             .btn,
@@ -400,14 +516,101 @@
                 max-height: none !important;
             }
 
-            .recipe-header,
-            .notes-section {
-                page-break-after: always;
+            .recipe-header {
+                height: auto;
+                position: relative;
             }
 
-            .ingredients-list,
-            .instructions-list {
-                page-break-inside: avoid;
+            .recipe-image {
+                display: none;
+                /* Hide image for print */
+            }
+
+            .recipe-title-overlay {
+                position: static;
+                /* Remove absolute positioning */
+                background: none;
+                color: var(--color-secondary);
+                /* Dark text for print */
+                padding: 0;
+                text-align: center;
+                /* Center title for print */
+            }
+
+            .recipe-title-overlay h1 {
+                font-size: 2rem;
+                text-shadow: none;
+                color: var(--color-secondary);
+            }
+
+            .recipe-title-overlay p {
+                color: var(--color-secondary);
+                margin-top: 0.2rem;
+                font-size: 0.9rem;
+            }
+
+            .recipe-content {
+                padding: 1rem 0;
+                /* Adjust padding for print */
+                grid-template-columns: 1fr;
+                /* Single column for print */
+                gap: 1.5rem;
+            }
+
+            .section-title {
+                border-bottom: 2px solid var(--color-secondary);
+                padding-bottom: 0.5rem;
+                margin-top: 1.5rem;
+                font-size: 1.75rem;
+            }
+
+            .ingredients-list li,
+            .instructions-list li {
+                background-color: transparent;
+                /* No background on print */
+                border-left: none;
+                /* No border on print */
+                padding: 0.25rem 0;
+                /* Minimal padding */
+                margin-bottom: 0.2rem;
+                font-size: 0.9rem;
+                display: block;
+                /* Stack items */
+                color: var(--color-secondary);
+                text-decoration: none;
+                /* Remove line-through */
+                opacity: 1;
+            }
+
+            .ingredients-list li input[type="checkbox"] {
+                display: none;
+                /* Hide checkboxes for print */
+            }
+
+            .instructions-list li.highlighted {
+                background-color: transparent;
+                border-left: none;
+                transform: none;
+                box-shadow: none;
+                font-weight: normal;
+            }
+
+            .instructions-list li span:last-child {
+                display: none;
+                /* Hide minute indicator on print */
+            }
+
+            .notes-section {
+                margin-top: 1.5rem;
+                padding-top: 1rem;
+                border-top: 1px dashed var(--color-border);
+            }
+
+            .notes-section textarea {
+                border: 1px dashed var(--color-border);
+                background-color: transparent;
+                min-height: 80px;
+                color: var(--color-secondary);
             }
         }
     </style>
@@ -415,37 +618,31 @@
 
 <body>
     <div class="recipe-card">
-        <!-- Recipe Header -->
         <div class="recipe-header">
-            <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
-                alt="A beautiful batch of freshly baked chocolate chip cookies on a cooling rack" class="recipe-image"
-                onerror="this.onerror=null;this.src='https://placehold.co/1200x380/dcb/4a2c2a?text=Delicious+Cookies';">
+            <img src="images/cookies.jpg"
+                alt="A beautiful batch of freshly baked chocolate chip cookies on a cooling rack" class="recipe-image">
+
             <div class="recipe-title-overlay">
                 <h1>Artisan Chocolate Chip Cookies</h1>
                 <p>A timeless recipe perfected for a delightfully chewy center and crisp, golden-brown edges.</p>
             </div>
         </div>
 
-        <!-- Recipe Content (Ingredients & Instructions) -->
         <div class="recipe-content">
-            <!-- Left Column: Ingredients & Nutrition -->
             <div class="ingredients-section">
                 <h2 class="section-title">Ingredients</h2>
                 <div id="ingredientsContent" class="collapsible-content expanded">
                     <ul class="ingredients-list" id="ingredientsList">
-                        <!-- JS will populate this list -->
                     </ul>
                 </div>
             </div>
 
-            <!-- Right Column: Instructions & Cooking Tools -->
             <div class="instructions-section">
                 <h2 class="section-title">Instructions</h2>
                 <div id="instructionsContent" class="collapsible-content expanded">
                     <ul class="instructions-list" id="cookingSteps">
-                        <!-- JS will populate this list -->
                     </ul>
-                    <div class="action-buttons" style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div class="action-buttons">
                         <button id="startCookingBtn" class="btn btn-secondary">
                             <i class="fas fa-utensils" style="margin-right: 0.5rem;"></i> Start Cooking
                         </button>
@@ -454,7 +651,6 @@
                         </button>
                     </div>
                     <div id="cookingTimer" class="timer-display" style="display: none;">
-                        <!-- JS populates this -->
                     </div>
 
                     <div class="notes-section"
@@ -463,7 +659,7 @@
                             Notes</h3>
                         <textarea id="recipeNotes"
                             placeholder="e.g., 'Used dark chocolate chunks instead of chips' or 'Chilled the dough for an extra hour'"></textarea>
-                        <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+                        <div class="action-buttons" style="margin-top: 1rem;">
                             <button id="saveNotesBtn" class="btn"
                                 style="background-color: var(--color-subtle); color: var(--color-secondary); border-color: var(--color-border);">
                                 <i class="fas fa-save" style="margin-right: 0.5rem;"></i> Save
@@ -482,7 +678,6 @@
             </div>
         </div>
 
-        <!-- Recipe Footer with quick info -->
         <div class="recipe-footer">
             <div class="footer-info">
                 <div class="footer-info-item">
@@ -496,14 +691,11 @@
                 <div class="footer-info-item">
                     <i class="fas fa-cookie-bite"></i>
                     <p>Servings: <span id="servingSize" class="font-semibold">24</span> cookies</p>
-                    <div class="serving-adjuster"
-                        style="display: flex; align-items: center; justify-content:center; gap: 0.75rem; margin-top: 0.5rem;">
-                        <button id="decreaseServing" aria-label="Decrease servings"
-                            style="background: none; border:none; font-size: 1rem; cursor: pointer; color: var(--color-primary);"><i
-                                class="fas fa-minus-circle"></i></button>
-                        <button id="increaseServing" aria-label="Increase servings"
-                            style="background: none; border:none; font-size: 1rem; cursor: pointer; color: var(--color-primary);"><i
-                                class="fas fa-plus-circle"></i></button>
+                    <div class="serving-adjuster">
+                        <button id="decreaseServing" aria-label="Decrease servings">
+                            <i class="fas fa-minus-circle"></i></button>
+                        <button id="increaseServing" aria-label="Increase servings">
+                            <i class="fas fa-plus-circle"></i></button>
                     </div>
                 </div>
                 <div class="footer-info-item">
@@ -603,8 +795,8 @@
                 let stepHtml = `<span>${instr.step}</span>`;
                 if (instr.time) {
                     stepHtml += `<span style="font-size: 0.8rem; color: #a16207; margin-left: auto; padding-left: 1rem;">
-                                    <i class="fas fa-clock"></i> ${instr.time / 60} min
-                                 </span>`;
+                                        <i class="fas fa-clock"></i> ${instr.time / 60} min
+                                    </span>`;
                 }
                 li.innerHTML = stepHtml;
                 instructionsList.appendChild(li);
@@ -631,7 +823,7 @@
                 highlightCurrentStep();
             } else {
                 // End of recipe
-                alert('Congratulations! You finished the recipe.');
+                alert('Congratulations! You finished the recipe!');
                 resetCookingState();
             }
         }
@@ -654,6 +846,7 @@
                 const currentLi = document.querySelector(`#cookingSteps li[data-index='${currentStep}']`);
                 if (currentLi) {
                     currentLi.classList.add('highlighted');
+                    // Smooth scroll to the current step
                     currentLi.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     handleStepTimer();
                 }
